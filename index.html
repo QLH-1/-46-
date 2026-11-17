@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CET-SET4 四级口语模拟考试器</title>
+<style>
+  :root{
+    --blue:#1a56a0; --blue-d:#123f77; --bg:#eef2f7; --card:#ffffff;
+    --ok:#2e9e5b; --warn:#d9822b; --bad:#c0392b; --line:#d7dfea; --txt:#22303f;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{font-family:"Microsoft YaHei","Segoe UI",Arial,sans-serif; background:var(--bg); color:var(--txt); min-height:100vh; display:flex; flex-direction:column;}
+  header{background:var(--blue); color:#fff; padding:14px 24px; display:flex; align-items:center; gap:12px;}
+  header .logo{border:2px solid #fff; border-radius:6px; padding:2px 8px; font-weight:bold; letter-spacing:1px;}
+  header h1{font-size:18px; font-weight:600;}
+  header .sub{margin-left:auto; font-size:12px; opacity:.85;}
+  main{flex:1; width:100%; max-width:900px; margin:24px auto; padding:0 16px;}
+  .card{background:var(--card); border:1px solid var(--line); border-radius:10px; padding:24px; box-shadow:0 2px 8px rgba(20,50,90,.06);}
+  section{display:none;} section.active{display:block;}
+  h2{font-size:20px; color:var(--blue-d); margin-bottom:14px;}
+  h3{font-size:16px; margin:14px 0 8px;}
+  p,li{line-height:1.8; font-size:14px;}
+  ul,ol{padding-left:22px;}
+  .note{background:#fff8e6; border:1px solid #f0dca0; border-radius:6px; padding:10px 14px; font-size:13px; margin:14px 0;}
+  .row{display:flex; gap:10px; flex-wrap:wrap; align-items:center; margin:14px 0;}
+  .sets label{border:2px solid var(--line); border-radius:8px; padding:10px 18px; cursor:pointer; margin-right:10px; display:inline-block;}
+  .sets input{margin-right:6px;}
+  .sets label.sel{border-color:var(--blue); background:#eaf2fc;}
+  button{background:var(--blue); color:#fff; border:none; border-radius:6px; padding:10px 22px; font-size:15px; cursor:pointer;}
+  button:hover{background:var(--blue-d);}
+  button.ghost{background:#fff; color:var(--blue); border:1px solid var(--blue);}
+  button.small{padding:6px 12px; font-size:13px;}
+  button:disabled{background:#9db2c9; cursor:not-allowed;}
+  table{border-collapse:collapse; width:100%; margin:10px 0;}
+  th,td{border:1px solid var(--line); padding:7px 10px; font-size:13px; text-align:left;}
+  th{background:#f2f6fb;}
+  .opt{font-size:13px; margin-right:18px;}
+  /* 运行界面 */
+  #partBadge{display:inline-block; background:var(--blue); color:#fff; border-radius:20px; padding:4px 16px; font-size:14px; margin-bottom:12px;}
+  #stageName{font-size:15px; color:#5a6b7d; margin-bottom:6px;}
+  #instr{font-size:14px; color:#37506b; margin-bottom:12px; line-height:1.7;}
+  #content{border:1px dashed var(--line); border-radius:8px; padding:18px; min-height:120px; font-size:16px; line-height:1.9; background:#fbfcfe;}
+  #content .en{font-family:Georgia,"Times New Roman",serif;}
+  #content .cue{font-size:17px; font-weight:600; margin-bottom:8px;}
+  #timerBox{display:flex; align-items:center; gap:18px; margin:18px 0 8px;}
+  .ringwrap{position:relative; width:110px; height:110px; flex:none;}
+  .ringwrap svg{transform:rotate(-90deg);}
+  .ring-bg{stroke:#e2e9f2;} .ring-fg{stroke:var(--ok); stroke-linecap:round; transition:stroke-dashoffset .2s linear, stroke .3s;}
+  #timerNum{position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-size:34px; font-weight:700;}
+  #timerNum.hot{color:var(--bad);}
+  #meterWrap{flex:1;}
+  #meter{width:100%; height:46px; background:#f2f5fa; border-radius:6px;}
+  #recDot{display:none; align-items:center; gap:8px; color:var(--bad); font-size:14px; font-weight:600;}
+  #recDot.on{display:flex;}
+  #recDot .dot{width:12px; height:12px; border-radius:50%; background:var(--bad); animation:blink 1s infinite;}
+  @keyframes blink{50%{opacity:.15;}}
+  #status{font-size:13px; color:#6a7a8c; min-height:20px; margin-top:4px;}
+  .runbtns{margin-top:14px; display:flex; gap:10px;}
+  /* 结束页 */
+  audio{width:100%; margin-top:6px;}
+  .rec-item{border:1px solid var(--line); border-radius:8px; padding:12px 14px; margin-bottom:10px;}
+  .rec-item .lbl{font-weight:600; font-size:14px;}
+  footer{text-align:center; font-size:12px; color:#8b99a8; padding:14px;}
+  a{color:var(--blue);}
+</style>
+</head>
+<body>
+<header>
+  <span class="logo">CET-SET4</span>
+  <h1>英语四级口语 · 全流程模拟考场</h1>
+  <span class="sub">自制练习工具 · 非官方真题</span>
+</header>
+<main>
+
+  <!-- 首页 -->
+  <section id="scr-home" class="card active">
+    <h2>考试说明</h2>
+    <p>本模拟器按官方 CET-SET4 五个部分自动推进：<b>自我介绍（20秒）→ 短文朗读（准备45秒+朗读1分钟）→ 简短回答（2题，各约20秒）→ 个人陈述（准备45秒+陈述1分钟）→ 两人互动（准备1分钟+互动3分钟）</b>。每个作答环节自动录音，结束后可逐条回听。</p>
+    <div class="note">⚠️ 网站上的口试“真题”均为考生回忆版；本题库为按官方题型自编的仿真题，仅用于练习流程与限时表达。首次点击开始会请求麦克风权限，请使用 Chrome / Edge。</div>
+    <h3>① 选择一套题目</h3>
+    <div class="sets" id="setPick"></div>
+    <h3>② 考试辅助选项</h3>
+    <label class="opt"><input type="checkbox" id="optVoice" checked> 英文指令语音（考官提示音）</label>
+    <label class="opt"><input type="checkbox" id="optBeep" checked> 最后5秒滴声提醒</label>
+    <label class="opt"><input type="checkbox" id="optInterf"> 📢 考场环境模式（Part2–4 录音时模拟邻座考生同步作答的干扰声，建议外放体验）</label>
+    <h3>③ 开始</h3>
+    <div class="row">
+      <button id="btnStart">开始完整模拟（约10分钟）</button>
+      <button class="ghost" id="btnStop" style="display:none">中止考试</button>
+    </div>
+    <h3>单环节加练</h3>
+    <div class="row" id="partPick">
+      <button class="ghost small" data-part="1">Part1 自我介绍</button>
+      <button class="ghost small" data-part="2">Part2 短文朗读</button>
+      <button class="ghost small" data-part="3">Part3 简短回答</button>
+      <button class="ghost small" data-part="4">Part4 个人陈述</button>
+      <button class="ghost small" data-part="5">Part5 两人互动</button>
+    </div>
+  </section>
+
+  <!-- 考试运行页 -->
+  <section id="scr-run" class="card">
+    <span id="partBadge">Part 1</span> <span id="stageName"></span>
+    <div id="instr"></div>
+    <div id="content"></div>
+    <div id="timerBox">
+      <div class="ringwrap">
+        <svg width="110" height="110"><circle class="ring-bg" cx="55" cy="55" r="48" fill="none" stroke-width="8"/><circle id="ring" class="ring-fg" cx="55" cy="55" r="48" fill="none" stroke-width="8" stroke-dasharray="301.6" stroke-dashoffset="0"/></svg>
+        <div id="timerNum">0</div>
+      </div>
+      <div id="meterWrap">
+        <canvas id="meter" width="600" height="46"></canvas>
+        <div id="recDot"><span class="dot"></span>REC 正在录音</div>
+      </div>
+    </div>
+    <div id="status"></div>
+    <div class="runbtns"><button class="ghost small" id="btnAbort">中止本场模拟</button></div>
+  </section>
+
+  <!-- 结束页 -->
+  <section id="scr-end" class="card">
+    <h2>✅ 模拟完成</h2>
+    <p>回听下面每段录音，对照检查：是否<b>说满时限</b>、是否有<b>长时间停顿/中文填充</b>、发音是否<b>清晰可辨</b>、内容是否<b>切题</b>。可右键逐条下载保存。</p>
+    <div id="recList" style="margin-top:14px"></div>
+    <div class="row"><button id="btnAgain">再来一套</button><button class="ghost" id="btnHome">返回首页</button></div>
+  </section>
+
+</main>
+<footer>本工具为个人练习用途的仿真题库与流程模拟器，与教育部教育考试院无关。官方流程视频：<a href="https://cet.neea.edu.cn/html1/report/16123/577-1.htm" target="_blank">CET-SET4 考试流程视频</a></footer>
+
+<script>
+"use strict";
+/* ================= 仿真题库（自编，非官方真题） ================= */
+const SETS = {
+A: { name:"模拟卷 A",
+  passage: { title:"Reading on Campus", words:118, en:
+    "Despite the popularity of short videos and social media, reading remains one of the most valuable habits a college student can develop. When we read a book carefully, we are forced to slow down and follow a long line of thinking, which is quite different from the quick jumps our phones ask us to make every day. Libraries on campus are becoming busier again, and many students say that reading before bed helps them sleep better than scrolling through their screens. Teachers also notice that students who read widely tend to write better and speak with more confidence. Of course, reading does not mean giving up technology; it simply means keeping a balance. If a student can spend just thirty minutes a day with a real book, the effect over four college years can be surprising.",
+    zh:"（朗读提示：注意 despite / which 引导的长意群断句；最后两句放慢、加重 just thirty minutes a day。）" },
+  questions: [
+    "According to the speaker, what is different between reading a book and using a phone?",
+    "What two benefits of reading are mentioned in the passage?" ],
+  presentation: { title:"Describe a person who has influenced you.",
+    cues:["Who the person is","What he or she did","How this person influenced you"] },
+  interaction: { title:"Plan a weekend trip together",
+    task:"Suppose you and your partner are planning a weekend trip. Talk together and decide the details below, then reach a conclusion.",
+    points:["Where to go and why","How to get there","How to share the cost","When and where to meet"] },
+},
+B: { name:"模拟卷 B",
+  passage: { title:"Food Delivery on Campus", words:116, en:
+    "Food delivery services have become a normal part of life for many college students. With just a few taps on a phone, a warm meal can arrive at the dormitory gate in half an hour. For students who are busy with classes, clubs or part-time jobs, this convenience is hard to refuse. However, the habit also brings problems. Delivery boxes create a large amount of rubbish every day, and some students pay more for delivered meals than for the same food in the canteen. Doctors also warn that dishes made for delivery often contain too much oil and salt. For most students, the wise choice is not to stop using these services, but to use them sometimes rather than always, especially when the campus restaurant is just downstairs.",
+    zh:"（朗读提示：however 后稍停顿；比较级 more…than 注意连读；末句 rather than always 重读。）" },
+  questions: [
+    "Why do many students like using food delivery services?",
+    "What problems does the habit of ordering delivery bring?" ],
+  presentation: { title:"Talk about a campus activity you would like to take part in.",
+    cues:["What the activity is","When and where it is held","Why you want to join it","What you hope to get from it"] },
+  interaction: { title:"Choose a birthday gift for a friend",
+    task:"Your classmate's birthday is coming. Talk with your partner and decide what gift to buy and how to celebrate.",
+    points:["What your friend likes","What gift to buy and why","How much to share for the gift","How and when to celebrate"] },
+},
+C: { name:"模拟卷 C",
+  passage: { title:"Learning Apps", words:121, en:
+    "Learning apps have changed the way students study English. Every morning on the bus, you can see passengers busy with short lessons on their phones, and many of them are memorizing new words. These apps are good at turning study into a game: they give points, keep a daily record, and remind you when you are about to give up. Still, researchers point out that a ten-minute game is not the same as real language practice. If users only choose the words they already know just to win points, their level will not really improve. The most successful learners usually treat the app as a warm-up, and then spend time on longer tasks, such as reading an article or talking with a partner in English.",
+    zh:"（朗读提示：冒号后停顿；not the same as 清晰读出；such as 后三个并列成分用升调。）" },
+  questions: [
+    "According to the passage, how do learning apps keep students interested?",
+    "What do researchers say about only playing the ten-minute games?" ],
+  presentation: { title:"Describe your favorite place on campus.",
+    cues:["Where it is","What it looks like","What you usually do there","Why you like it"] },
+  interaction: { title:"Plan a class volunteer activity",
+    task:"Your class is going to organize a one-day volunteer activity. Discuss with your partner and make a plan.",
+    points:["What activity to choose and for whom","When and where to hold it","What to prepare","How to divide the work"] }
+},
+};
+const SELFINTRO = "Good morning/afternoon. Now let's start the test. In this part, you are going to introduce yourself. You have about 20 seconds.";
+/* 干扰音素材：模拟邻座考生同步作答（任务2/3）与同步陈述（任务4） */
+const P3_NOISE = [
+  "Well, in my opinion, the passage mainly tells us that this habit is really helpful for students, because it saves a lot of time and makes daily life much easier, although some teachers do not completely agree with it.",
+  "That is a good question. I think many young people like it because it is fast and convenient, but of course there are also some problems, so we should use it in a wise way instead of relying on it all the time."
+];
+const P4_NOISE = "Well, the topic I want to talk about is a person who influenced me a lot. Hmm, let me think. Actually it is my senior school English teacher. She was very patient and never laughed at our mistakes. I still remember one time when I failed an important exam and wanted to give up, she talked with me for almost an hour after class. She said that progress matters more than results, and that small steps every day can lead to big changes. Later I followed her advice and made a daily plan for myself. Little by little, I became more confident, not only in English but also in other subjects. So I think a good teacher can really change the direction of a student's life.";
+
+/* ================= 考试引擎 ================= */
+const $ = id => document.getElementById(id);
+const CIRC = 301.6;
+let chosen = "A";
+let flow = [], fIdx = 0, timerInt = null, interTid = null, recChunks = [], recMs = 100000, recExt = "webm", mediaRec = null, micOK = false;
+let stream = null, actx = null, analyser = null, rafId = null;
+let recordings = [];
+let running = false;
+
+/* ---- 首页交互 ---- */
+function renderSetPick(){
+  const box = $("setPick"); box.innerHTML = "";
+  for (const k in SETS){
+    const lab = document.createElement("label");
+    lab.className = k === chosen ? "sel" : "";
+    lab.innerHTML = `<input type="radio" name="set" value="${k}" ${k===chosen?"checked":""}>${SETS[k].name}`;
+    lab.querySelector("input").addEventListener("change", () => { chosen = k; renderSetPick(); });
+    box.appendChild(lab);
+  }
+}
+function show(id){ ["scr-home","scr-run","scr-end"].forEach(s => $(s).classList.toggle("active", s === id)); }
+
+$("btnStart").addEventListener("click", () => startExam(buildFlow(SETS[chosen])));
+$("btnAbort").addEventListener("click", () => endExam(false));
+$("btnAgain").addEventListener("click", () => { chosen = Object.keys(SETS)[ (Object.keys(SETS).indexOf(chosen)+1) % Object.keys(SETS).length ]; renderSetPick(); startExam(buildFlow(SETS[chosen])); });
+$("btnHome").addEventListener("click", () => { cleanup(); show("scr-home"); });
+document.querySelectorAll("#partPick button").forEach(b => b.addEventListener("click", () => startExam(buildFlow(SETS[chosen]).filter(p => p.part === +b.dataset.part))));
+
+/* ---- 流程构建：每个 phase = {part,stage,sec,instr,html,voice,rec} ---- */
+function buildFlow(S){
+  const F = [];
+  F.push({part:1, stage:"考官指令", sec:8, instr:"听完指令后，系统会开始为你录音。", html:`<div class="en">${SELFINTRO}</div>`, voice:"Now, let's begin the test."});
+  F.push({part:1, stage:"自我介绍 · 录音中", sec:20, rec:"Part1 自我介绍", instr:"请用约 20 秒完成简短自我介绍（姓名、学校专业、兴趣爱好等，不必报真实姓名）。", html:`<div class="cue">Introduce yourself in about 20 seconds.</div><p style="font-size:13px;color:#68788a">示例思路：My name is… → I study… at … University → In my spare time, I enjoy…</p>`, voice:"Please start your introduction now."});
+  F.push({part:2, stage:"短文朗读 · 准备45秒", sec:45, instr:"请出声预读下面的短文（约 120 词），标出长难句的断句。45 秒后开始正式朗读。", html:passageHtml(S.passage), voice:"You have forty-five seconds to prepare."});
+  F.push({part:2, stage:"短文朗读 · 录音中", sec:60, rec:"Part2 短文朗读 "+S.passage.title, interfText:S.passage.en, instr:"请清晰、流畅地朗读全文，不漏读、不添词。1 分钟后自动停止。", html:passageHtml(S.passage), voice:"Please begin reading."});
+  S.questions.forEach((q, i) => {
+    F.push({part:3, stage:`简短回答 · 第${i+1}题`, sec:8, instr:"看题并理解问题（本题作答约 20 秒）。", html:`<div class="cue">Question ${i+1}</div><div class="en">${q}</div>`, voice:`Question ${i+1}.`});
+    F.push({part:3, stage:`简短回答 · 第${i+1}题作答`, sec:20, rec:`Part3 简短回答 Q${i+1}`, interfText:P3_NOISE[i%2], instr:"请直接作答，一句话观点 + 一两句理由即可。", html:`<div class="cue">Question ${i+1}</div><div class="en">${q}</div><details style="margin-top:10px;font-size:12px;color:#7a8a9c"><summary>回看原文</summary><div class="en" style="font-size:13px">${S.passage.en}</div></details>`, voice:"Please answer the question."});
+  });
+  F.push({part:4, stage:"个人陈述 · 准备45秒", sec:45, instr:"根据提示在纸上列出“观点—理由—例子”三个要点，45 秒后开始陈述。", html:cueHtml(S.presentation), voice:"You have forty-five seconds to prepare."});
+  F.push({part:4, stage:"个人陈述 · 录音中", sec:60, rec:"Part4 个人陈述", interfText:P4_NOISE, instr:"请围绕提示陈述约 1 分钟，覆盖全部要点。", html:cueHtml(S.presentation), voice:"Please give your presentation now."});
+  F.push({part:5, stage:"两人互动 · 准备1分钟", sec:60, instr:"阅读情景任务与 4 个讨论要点；若单人练习，请一人分饰两角，主动发起并回应。", html:sceneHtml(S.interaction), voice:"You have one minute to prepare."});
+  F.push({part:5, stage:"两人互动 · 录音中", sec:180, rec:"Part5 两人互动", instr:"请与搭档交谈 3 分钟，逐一讨论 4 个要点并得出结论（单人练习时请两个角色都演）。", html:sceneHtml(S.interaction), voice:"Please begin your conversation."});
+  return F;
+}
+function passageHtml(p){ return `<div class="cue">${p.title}（${p.words} words）</div><div class="en">${p.en}</div><p style="font-size:12px;color:#8a7a4a;margin-top:8px">${p.zh}</p>`; }
+function cueHtml(pr){ return `<div class="cue">${pr.title}</div><ul>${pr.cues.map(c=>`<li class="en">${c}</li>`).join("")}</ul>`; }
+function sceneHtml(it){ return `<div class="cue">${it.title}</div><p class="en" style="margin-bottom:8px">${it.task}</p><ul>${it.points.map(p=>`<li class="en">${p}</li>`).join("")}</ul><p style="font-size:12px;color:#7a8a9c;margin-top:8px">Role A 可先开口：So, what are your thoughts on…? ／ Role B 回应：That sounds great, but don't you think…?</p>`; }
+
+/* ---- 开始 / 推进 / 结束 ---- */
+async function startExam(f){
+  cleanup(); recordings = []; flow = f; fIdx = 0; running = true;
+  try { await ensureMic(); } catch(e){ micOK = false; }
+  show("scr-run");
+  nextPhase();
+}
+function nextPhase(){
+  if (!running) return;
+  if (fIdx >= flow.length) { endExam(true); return; }
+  const ph = flow[fIdx];
+  $("partBadge").textContent = "Part " + ph.part;
+  $("stageName").textContent = ph.stage;
+  $("instr").textContent = ph.instr || "";
+  $("content").innerHTML = ph.html || "";
+  if ($("content").scrollTop) $("content").scrollTop = 0;
+  const total = ph.sec, deadline = Date.now() + total*1000;
+  setRing(0, total); $("status").textContent = micOK ? "" : "⚠️ 未获得麦克风权限，本场将不录音。";
+  if (ph.voice) say(ph.voice);
+  if (ph.rec) { startRec(ph.rec); queueInterf(ph); }
+  clearInterval(timerInt);
+  timerInt = setInterval(() => {
+    const left = Math.max(0, deadline - Date.now());
+    const sec = Math.ceil(left/1000);
+    $("timerNum").textContent = sec;
+    $("timerNum").classList.toggle("hot", sec <= 5);
+    $("ring").style.stroke = sec <= 5 ? "var(--bad)" : (sec <= Math.max(10,total*0.25) ? "var(--warn)" : "var(--ok)");
+    setRing(total - left/1000, total);
+    if (sec <= 5 && sec > 0 && $("optBeep").checked && left % 1000 < 60) beep(880);
+    if (left <= 0) { clearInterval(timerInt); stopRec(); if (ph.rec) say("Time's up.");
+      interTid = setTimeout(() => { fIdx++; nextPhase(); }, 1600); }
+  }, 120);
+}
+function endExam(finished){
+  running = false; clearInterval(timerInt); clearTimeout(interTid); stopRec();
+  if (finished){
+    show("scr-end");
+    const box = $("recList"); box.innerHTML = recordings.length ? "" : "<p>本场没有录音记录。</p>";
+    recordings.forEach(r => {
+      const d = document.createElement("div"); d.className = "rec-item";
+      d.innerHTML = `<div class="lbl">${r.label}　<span style="color:#68788a;font-weight:400">时长 ${(r.ms/1000).toFixed(1)} 秒</span></div>
+        <audio controls src="${r.url}"></audio>
+        <a href="${r.url}" download="${r.label}.${r.ext}" style="font-size:12px">下载本段</a>`;
+      box.appendChild(d);
+    });
+  } else { cleanup(); show("scr-home"); }
+}
+function cleanup(){
+  running = false; clearInterval(timerInt); clearTimeout(interTid);
+  stopRec(); cancelAnimationFrame(rafId);
+  try { speechSynthesis.cancel(); } catch(e) {}
+  if (stream){ stream.getTracks().forEach(t => t.stop()); stream = null; }
+  micOK = false; $("btnStop").style.display = "none";
+}
+function setRing(elapsed, total){ $("ring").setAttribute("stroke-dashoffset", CIRC * (elapsed/total)); }
+
+/* ---- 麦克风 / 录音 / 电平 / 声音 ---- */
+async function ensureMic(){
+  if (stream && micOK) return;
+  stream = await navigator.mediaDevices.getUserMedia({ audio:true });
+  actx = actx || new (window.AudioContext || window.webkitAudioContext)();
+  const src = actx.createMediaStreamSource(stream);
+  analyser = actx.createAnalyser(); analyser.fftSize = 256; src.connect(analyser);
+  micOK = true; drawMeter();
+}
+function startRec(label){
+  recChunks = []; recMs = Date.now();
+  if (!micOK){ $("recDot").classList.remove("on"); return; }
+  try {
+    /* 兼容 iPhone/Safari：优先 webm，其次 mp4 */
+    const mime = MediaRecorder.isTypeSupported("audio/webm") ? "audio/webm"
+               : MediaRecorder.isTypeSupported("audio/mp4") ? "audio/mp4" : "";
+    recExt = mime.includes("mp4") ? "m4a" : "webm";
+    mediaRec = new MediaRecorder(stream, mime ? { mimeType: mime } : undefined);
+    mediaRec.ondataavailable = e => { if (e.data.size) recChunks.push(e.data); };
+    mediaRec.onstop = () => { if (recChunks.length) recordings.push({ label, ext: recExt, url: URL.createObjectURL(new Blob(recChunks, {type: mime || "audio/webm"})), ms: Date.now()-recMs }); };
+    mediaRec.start(); $("recDot").classList.add("on"); $("status").textContent = "";
+  } catch(e){ $("recDot").classList.remove("on"); }
+}
+function stopRec(){ $("recDot").classList.remove("on"); if (mediaRec && mediaRec.state !== "inactive") mediaRec.stop(); mediaRec = null; }
+function drawMeter(){
+  const cv = $("meter"), ctx = cv.getContext("2d"), data = new Uint8Array(analyser.frequencyBinCount);
+  (function loop(){ rafId = requestAnimationFrame(loop); if (!running) return;
+    analyser.getByteFrequencyData(data);
+    ctx.clearRect(0,0,cv.width,cv.height); ctx.fillStyle = "#1a56a0";
+    const n = 48, w = cv.width/n;
+    for (let i=0;i<n;i++){ const v = data[Math.floor(i*data.length/n/2)]/255; ctx.fillRect(i*w+2, cv.height-v*cv.height, w-4, v*cv.height); }
+  })();
+}
+function beep(freq){ try{ const a = actx || new AudioContext(); const o = a.createOscillator(), g = a.createGain();
+  o.frequency.value = freq; g.gain.value = .12; o.connect(g); g.connect(a.destination); o.start(); o.stop(a.currentTime+.12); }catch(e){} }
+function say(text){ if (!$("optVoice").checked || !("speechSynthesis" in window)) return;
+  const u = new SpeechSynthesisUtterance(text); u.lang = "en-US"; u.rate = .95; speechSynthesis.cancel(); speechSynthesis.speak(u); }
+/* ---- 考场干扰音：模拟邻座考生同步作答（Chrome 语音队列自然排在考官指令之后） ---- */
+function queueInterf(ph){
+  if (!$("optInterf").checked || !ph.interfText || !("speechSynthesis" in window)) return;
+  if (!$("optVoice").checked || !ph.voice) { try { speechSynthesis.cancel(); } catch(e) {} }
+  const chunks = ph.interfText.match(/[^.!?]+[.!?]?/g) || [ph.interfText];
+  const vs = speechSynthesis.getVoices().filter(v => /^en/i.test(v.lang));
+  const v = vs[1] || vs[0] || null;   /* 优先选与指令音色不同的英文声，像“别人” */
+  chunks.forEach(c => {
+    const u = new SpeechSynthesisUtterance(c.trim());
+    u.lang = "en-US"; if (v) u.voice = v;
+    u.rate = 1.08; u.volume = .5; u.pitch = .8;   /* 稍快、偏慢低、半音量：邻座效果 */
+    speechSynthesis.speak(u);
+  });
+}
+
+/* ---- 初始化 ---- */
+renderSetPick();
+if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia){
+  document.querySelector("#scr-home .note").innerHTML += "<br>当前浏览器不支持麦克风录音，请改用 Chrome / Edge，或通过本地服务器（http://localhost）打开本页面。";
+}
+
+</script>
+</body>
+</html>
