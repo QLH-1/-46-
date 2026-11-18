@@ -77,7 +77,7 @@
   <section id="scr-home" class="card active">
     <h2>考试说明</h2>
     <p>本模拟器按官方 CET-SET4 五个部分自动推进：<b>自我介绍（20秒）→ 短文朗读（准备45秒+朗读1分钟）→ 简短回答（2题，各约20秒）→ 个人陈述（准备45秒+陈述1分钟）→ 两人互动（准备1分钟+互动3分钟）</b>。每个作答环节自动录音，结束后可逐条回听。</p>
-    <div class="note">⚠️ 网站上的口试“真题”均为考生回忆版；本题库为按官方题型自编的仿真题，仅用于练习流程与限时表达。首次点击开始会请求麦克风权限，请使用 Chrome / Edge。</div>
+    <div class="note">⚠️ 网站上的口试“真题”均为考生回忆版；本题库为按官方题型自编的仿真题，仅用于练习流程与限时表达。首次点击开始会请求麦克风权限，请使用 Chrome / Edge。共八套题：A/B/C/E/G 为文字提示陈述，D/F/H 为官方样卷同款<strong>看图陈述</strong>（需与网页同目录保留 p4-*.jpg 图片）。</div>
     <h3>① 选择一套题目</h3>
     <div class="sets" id="setPick"></div>
     <h3>② 考试辅助选项</h3>
@@ -172,6 +172,68 @@ C: { name:"模拟卷 C",
     task:"Your class is going to organize a one-day volunteer activity. Discuss with your partner and make a plan.",
     points:["What activity to choose and for whom","When and where to hold it","What to prepare","How to divide the work"] }
 },
+D: { name:"模拟卷 D · 看图陈述",
+  passage: { title:"Volunteering Pays Off", words:118, en:
+    "Voluntary work is becoming increasingly popular among college students, and universities encourage it for good reasons. Helping others, whether teaching children in a village school or picking up litter in a public park, gives students something a classroom cannot: real contact with society. Many volunteers say that the experience changes the way they see their own problems. A student who once felt shy reported that working with strangers taught her to communicate without fear. Volunteering also looks good on a resume, but employers value it mainly because it shows responsibility and teamwork. Experts suggest choosing one project and sticking to it for a whole term, because real skills grow from regular effort, not from a single photo for social media.",
+    zh:"（朗读提示：whether…or 结构两个并列成分用升调；冒号后停顿；末句 not from a single photo 重读。）" },
+  questions: [
+    "According to the passage, what does voluntary work give students that a classroom cannot?",
+    "Have you ever done any voluntary work? Talk about what you did and what you learned from it." ],
+  presentation: { img:"p4-volunteer.jpg", title:"Look at the picture and talk about it." },
+  interaction: { title:"Plan a welcome party for exchange students",
+    task:"International exchange students are joining your class this term. Plan a welcome party together and reach a conclusion.",
+    points:["When and where to hold the party","What games or programs to prepare","What food and decorations to buy","How to divide the preparation work"] }
+},
+E: { name:"模拟卷 E · 文字陈述",
+  passage: { title:"Studying with AI Tools", words:116, en:
+    "Artificial intelligence tools are now everywhere on campus: they answer questions, correct essays and even suggest research topics. For many students, an AI assistant works like a patient tutor that never gets tired and is free at any hour. However, teachers have noticed a worrying habit. Some students copy the answers without thinking, and their writing begins to sound the same. Others ask the tool to do the whole task, so they never practice the difficult part themselves. Researchers advise using AI as a coach instead of a replacement: ask it to explain the parts you do not understand, check your own draft, then rewrite it in your own words. Used in this way, the tool makes you better, not lazier.",
+    zh:"（朗读提示：冒号后停顿；instead of a replacement 重读；末句 better, not lazier 对比重读。）" },
+  questions: [
+    "According to the passage, what worrying habit have teachers noticed among some students?",
+    "Do you use AI tools in your study? Give an example and explain how you use them, or explain why you don't." ],
+  presentation: { title:"Talk about a skill you would like to learn.",
+    cues:["What the skill is","Why you want to learn it","How you plan to learn it","Who or what can help you"] },
+  interaction: { title:"Solve a problem in the dormitory",
+    task:"You are roommates. One studies late at night with the desk light on; the other needs early sleep and quiet. Talk, understand each other, and agree on rules for the room.",
+    points:["Talk about the problems each of you has","Possible solutions for the light problem","Possible solutions for the noise problem","The final rules you both agree on"] }
+},
+F: { name:"模拟卷 F · 看图陈述",
+  passage: { title:"Morning Classes and Sleep", words:119, en:
+    "Eight o'clock in the morning: while some students are already full of energy, others arrive at the classroom with breakfast in hand and sleep still in their eyes. Surveys show that many college students go to bed after midnight, often because they finish homework late or simply enjoy the quiet night hours on their phones. Doctors warn that short sleep hurts memory and makes morning classes almost useless, since students cannot concentrate or take notes properly. The advice sounds simple but works: set a fixed bedtime, keep phones away from the bed, and use the morning for exercise, which helps the body wake up naturally. A student who fixed her sleep schedule described the change as getting a new life for free.",
+    zh:"（朗读提示：冒号后停顿；since 从句降调；末句引号部分放慢，a new life for free 重读。）" },
+  questions: [
+    "According to the passage, why does short sleep make morning classes almost useless?",
+    "Is it easy for you to get up for morning classes? How do you keep energetic during the day?" ],
+  presentation: { img:"p4-morning.jpg", title:"Look at the picture and talk about it." },
+  interaction: { title:"Should the university require daily morning exercise?",
+    task:"Some students support the school's plan to require morning running; others strongly dislike it. Discuss both views and decide what advice your pair will give the university.",
+    points:["What benefits morning exercise can bring","What problems the requirement may cause","What students who dislike it care about most","The advice your pair finally gives"] }
+},
+G: { name:"模拟卷 G · 文字陈述",
+  passage: { title:"The Campus Second-hand Market", words:118, en:
+    "Every term, when seniors pack their dormitories, a second-hand market appears on campus: bikes, lamps, textbooks and unopened snacks wait for new owners at low prices. Buying used items saves money, of course, but students give other reasons too. A used bike is already broken in, they joke; old books arrive full of someone's notes, which turns out to be a kind of gift. The market is also friendly to the environment, because things that would become rubbish find a second life. Online groups have made the trade faster — a desk lamp often finds a buyer within an hour. If you have never visited the market, go next June; just bring small money and come early, because the best things never wait long.",
+    zh:"（朗读提示：broken in 是习语“磨合好了”；破折号处停顿；末句 never wait long 降调收尾。）" },
+  questions: [
+    "According to the passage, why do students think old books are like a gift?",
+    "Would you like to buy second-hand things? Why or why not?" ],
+  presentation: { title:"Describe a piece of technology you use every day.",
+    cues:["What it is and when you use it","How it helps you in study or life","One problem or drawback it brings","Whether you could live without it, and why"] },
+  interaction: { title:"Organize a charity bazaar for a village school",
+    task:"Your class will hold a small bazaar to raise money for a village school. Plan it with your partner and reach a conclusion.",
+    points:["What to collect and sell","How to set prices and advertise","Who does what on the market day","How to use the money raised"] }
+},
+H: { name:"模拟卷 H · 看图陈述",
+  passage: { title:"Learning Moves Online", words:122, en:
+    "Online learning has grown faster than anyone expected. At one university, a report showed that students spent an average of eight hours a week on online courses in 2019; four years later the number rose to twenty-one hours, while the time spent in traditional classrooms fell slightly. The increase has clear causes: recorded lectures can be watched at double speed and replayed before exams, which many students consider unaffordable in a real classroom. However, the same report noticed that students who watched everything but never did the exercises gained the least. The researchers' conclusion is reasonable: online time is only useful when it is followed by offline action, such as summarizing, practising and discussing.",
+    zh:"（朗读提示：数字 eight / twenty-one hours 清晰重读；分号处停顿；末句三个动名词用升调。）" },
+  questions: [
+    "According to the report, which students gained the least from online courses?",
+    "Which do you prefer, online courses or face-to-face classes? Why?" ],
+  presentation: { img:"p4-online-class.jpg", title:"Look at the picture and talk about it." },
+  interaction: { title:"Plan a graduation trip with a budget",
+    task:"After graduation, you and your partner plan a three-day trip. You can spend at most 1,500 yuan each. Talk and make a workable plan.",
+    points:["Where to go and what to see","How to travel there and where to stay","How to keep the cost under 1,500 yuan","What to do if it rains for a whole day"] }
+},
 };
 const SELFINTRO = "Good morning/afternoon. Now let's start the test. In this part, you are going to introduce yourself. You have about 20 seconds.";
 /* 干扰音素材：模拟邻座考生同步作答（任务2/3）与同步陈述（任务4） */
@@ -217,17 +279,20 @@ function buildFlow(S){
   F.push({part:2, stage:"短文朗读 · 准备45秒", sec:45, instr:"请出声预读下面的短文（约 120 词），标出长难句的断句。45 秒后开始正式朗读。", html:passageHtml(S.passage), voice:"You have forty-five seconds to prepare."});
   F.push({part:2, stage:"短文朗读 · 录音中", sec:60, rec:"Part2 短文朗读 "+S.passage.title, interfText:S.passage.en, instr:"请清晰、流畅地朗读全文，不漏读、不添词。1 分钟后自动停止。", html:passageHtml(S.passage), voice:"Please begin reading."});
   S.questions.forEach((q, i) => {
-    F.push({part:3, stage:`简短回答 · 第${i+1}题`, sec:8, instr:"看题并理解问题（本题作答约 20 秒）。", html:`<div class="cue">Question ${i+1}</div><div class="en">${q}</div>`, voice:`Question ${i+1}.`});
-    F.push({part:3, stage:`简短回答 · 第${i+1}题作答`, sec:20, rec:`Part3 简短回答 Q${i+1}`, interfText:P3_NOISE[i%2], instr:"请直接作答，一句话观点 + 一两句理由即可。", html:`<div class="cue">Question ${i+1}</div><div class="en">${q}</div><details style="margin-top:10px;font-size:12px;color:#7a8a9c"><summary>回看原文</summary><div class="en" style="font-size:13px">${S.passage.en}</div></details>`, voice:"Please answer the question."});
+    F.push({part:3, stage:`简短回答 · 第${i+1}题 听题`, sec:14, essential:true, instr:"真实考试屏幕上不显示题目，只播录音。请仔细听语音提问（听完后作答约 20 秒，录音只播一遍）。", html:`<div class="cue">Question ${i+1}　🔊 请听录音</div>`, voice:`Question ${i+1}. ${q}`});
+    F.push({part:3, stage:`简短回答 · 第${i+1}题作答`, sec:20, rec:`Part3 简短回答 Q${i+1}`, interfText:P3_NOISE[i%2], instr:"请立即作答：观点句 + because + 原文细节。", html:`<div class="cue">Question ${i+1} — Answer now</div><details style="margin-top:10px;font-size:12px;color:#7a8a9c"><summary>回看原文（真实考试不提供；严格模拟请别点开）</summary><div class="en" style="font-size:13px">${S.passage.en}</div></details>`, voice:"Please answer the question now."});
   });
-  F.push({part:4, stage:"个人陈述 · 准备45秒", sec:45, instr:"根据提示在纸上列出“观点—理由—例子”三个要点，45 秒后开始陈述。", html:cueHtml(S.presentation), voice:"You have forty-five seconds to prepare."});
-  F.push({part:4, stage:"个人陈述 · 录音中", sec:60, rec:"Part4 个人陈述", interfText:P4_NOISE, instr:"请围绕提示陈述约 1 分钟，覆盖全部要点。", html:cueHtml(S.presentation), voice:"Please give your presentation now."});
+  F.push({part:4, stage:"个人陈述 · 准备45秒", sec:45, instr: S.presentation.img ? "真实考试此部分可能只给一张图片（也有文字要点卷）。请用 45 秒立意：图中有什么 → 反映什么现象 → 你的观点或经历。" : "根据提示在纸上列出“观点—理由—例子”三个要点，45 秒后开始陈述。", html:cueHtml(S.presentation), voice: S.presentation.img ? "In this task, you will talk about the picture displayed on the screen. You have forty-five seconds to prepare. Now here is the picture." : "You have forty-five seconds to prepare."});
+  F.push({part:4, stage:"个人陈述 · 录音中", sec:60, rec:"Part4 个人陈述", interfText:P4_NOISE, instr: S.presentation.img ? "请描述图片并就其反映的现象发表看法，说满约 1 分钟。" : "请围绕提示陈述约 1 分钟，覆盖全部要点。", html:cueHtml(S.presentation), voice: S.presentation.img ? "Please talk about the picture now." : "Please give your presentation now."});
   F.push({part:5, stage:"两人互动 · 准备1分钟", sec:60, instr:"阅读情景任务与 4 个讨论要点；若单人练习，请一人分饰两角，主动发起并回应。", html:sceneHtml(S.interaction), voice:"You have one minute to prepare."});
   F.push({part:5, stage:"两人互动 · 录音中", sec:180, rec:"Part5 两人互动", instr:"请与搭档交谈 3 分钟，逐一讨论 4 个要点并得出结论（单人练习时请两个角色都演）。", html:sceneHtml(S.interaction), voice:"Please begin your conversation."});
   return F;
 }
 function passageHtml(p){ return `<div class="cue">${p.title}（${p.words} words）</div><div class="en">${p.en}</div><p style="font-size:12px;color:#8a7a4a;margin-top:8px">${p.zh}</p>`; }
-function cueHtml(pr){ return `<div class="cue">${pr.title}</div><ul>${pr.cues.map(c=>`<li class="en">${c}</li>`).join("")}</ul>`; }
+function cueHtml(pr){
+  if (pr.img) return `<div class="cue">${pr.title}</div><img src="${pr.img}" alt="presentation picture" style="max-width:min(400px,80%);width:100%;border-radius:8px;display:block;margin:0 auto;border:1px solid rgba(125,155,185,.35)">`;
+  return `<div class="cue">${pr.title}</div><ul>${pr.cues.map(c=>`<li class="en">${c}</li>`).join("")}</ul>`;
+}
 function sceneHtml(it){ return `<div class="cue">${it.title}</div><p class="en" style="margin-bottom:8px">${it.task}</p><ul>${it.points.map(p=>`<li class="en">${p}</li>`).join("")}</ul><p style="font-size:12px;color:#7a8a9c;margin-top:8px">Role A 可先开口：So, what are your thoughts on…? ／ Role B 回应：That sounds great, but don't you think…?</p>`; }
 
 /* ---- 开始 / 推进 / 结束 ---- */
@@ -248,7 +313,7 @@ function nextPhase(){
   if ($("content").scrollTop) $("content").scrollTop = 0;
   const total = ph.sec, deadline = Date.now() + total*1000;
   setRing(0, total); $("status").textContent = micOK ? "" : "⚠️ 未获得麦克风权限，本场将不录音。";
-  if (ph.voice) say(ph.voice);
+  if (ph.voice) say(ph.voice, ph.essential);   /* essential=考题语音，不受指令语音开关限制 */
   if (ph.rec) { startRec(ph.rec); queueInterf(ph); }
   clearInterval(timerInt);
   timerInt = setInterval(() => {
@@ -321,7 +386,7 @@ function drawMeter(){
 }
 function beep(freq){ try{ const a = actx || new AudioContext(); const o = a.createOscillator(), g = a.createGain();
   o.frequency.value = freq; g.gain.value = .12; o.connect(g); g.connect(a.destination); o.start(); o.stop(a.currentTime+.12); }catch(e){} }
-function say(text){ if (!$("optVoice").checked || !("speechSynthesis" in window)) return;
+function say(text, essential){ if ((!essential && !$("optVoice").checked) || !("speechSynthesis" in window)) return;
   const u = new SpeechSynthesisUtterance(text); u.lang = "en-US"; u.rate = .95; speechSynthesis.cancel(); speechSynthesis.speak(u); }
 /* ---- 考场干扰音：模拟邻座考生同步作答（Chrome 语音队列自然排在考官指令之后） ---- */
 function queueInterf(ph){
